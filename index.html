@@ -1,1 +1,344 @@
 
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcahUglyMeow Dressmaker 3D</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffd9ec, #e7d7ff);
+  color: #5b3b63;
+}
+
+header {
+  text-align: center;
+  padding: 24px 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.subtitle {
+  margin-top: 8px;
+  opacity: 0.75;
+}
+
+.game {
+  max-width: 1000px;
+  margin: auto;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  gap: 18px;
+}
+
+.stage {
+  min-height: 600px;
+  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 25%, white 0 10%, #f8d9ed 35%, #cbb8eb 100%);
+  box-shadow: 0 15px 40px rgba(80,50,100,.2);
+}
+
+/* CHARACTER */
+
+.character {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -48%);
+  width: 230px;
+  text-align: center;
+}
+
+.hair {
+  width: 125px;
+  height: 120px;
+  background: #39243d;
+  border-radius: 60% 60% 45% 45%;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.face {
+  width: 100px;
+  height: 105px;
+  background: #f3c6a9;
+  border-radius: 50%;
+  margin: -100px auto 0;
+  position: relative;
+  z-index: 2;
+  box-shadow: inset -8px -7px rgba(210,150,120,.25);
+}
+
+.face::before {
+  content: "•  •";
+  white-space: pre;
+  position: absolute;
+  top: 42px;
+  left: 27px;
+  font-size: 20px;
+  letter-spacing: 17px;
+}
+
+.face::after {
+  content: "♡";
+  position: absolute;
+  bottom: 18px;
+  left: 42px;
+  font-size: 18px;
+}
+
+.body {
+  width: 150px;
+  height: 190px;
+  margin: -3px auto 0;
+  border-radius: 65px 65px 25px 25px;
+  background: #f3a8c8;
+  transition: .3s;
+}
+
+.skirt {
+  width: 205px;
+  height: 125px;
+  margin: -5px auto 0;
+  background: #c9a1ed;
+  clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+  transition: .3s;
+}
+
+.shoes {
+  display: flex;
+  justify-content: space-between;
+  width: 145px;
+  margin: 5px auto;
+}
+
+.shoe {
+  width: 60px;
+  height: 25px;
+  border-radius: 20px;
+  background: #71477d;
+  transition: .3s;
+}
+
+/* PANEL */
+
+.panel {
+  background: rgba(255,255,255,.85);
+  padding: 20px;
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(80,50,100,.12);
+}
+
+.coins {
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.group {
+  margin: 18px 0;
+}
+
+.group strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+button {
+  border: none;
+  padding: 10px 13px;
+  margin: 4px;
+  border-radius: 14px;
+  background: white;
+  color: #5b3b63;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
+
+button:active {
+  transform: scale(.96);
+}
+
+.save {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  background: #a467bd;
+  color: white;
+  font-weight: bold;
+}
+
+.message {
+  text-align: center;
+  min-height: 25px;
+  margin-top: 12px;
+}
+
+@media(max-width:760px) {
+  .game {
+    grid-template-columns: 1fr;
+  }
+
+  .stage {
+    min-height: 520px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🐱 EcahUglyMeow Dressmaker 3D 👗</h1>
+  <div class="subtitle">
+    ✨ Mix & Match Your Dream Look ✨
+  </div>
+</header>
+
+<main class="game">
+
+<section class="stage">
+
+  <div class="character">
+
+    <div class="hair"></div>
+
+    <div class="face"></div>
+
+    <div class="body" id="top"></div>
+
+    <div class="skirt" id="skirt"></div>
+
+    <div class="shoes">
+      <div class="shoe"></div>
+      <div class="shoe"></div>
+    </div>
+
+  </div>
+
+</section>
+
+<aside class="panel">
+
+  <div class="coins">
+    💎 Coins: <span id="coins">100</span>
+  </div>
+
+  <h2>✨ Design Studio</h2>
+
+  <div class="group">
+    <strong>👚 Top</strong>
+
+    <button onclick="changeTop('#f3a8c8')">
+      🌸 Pink
+    </button>
+
+    <button onclick="changeTop('#c9b3ef')">
+      💜 Lilac
+    </button>
+
+    <button onclick="changeTop('#b5e3dc')">
+      🩵 Mint
+    </button>
+  </div>
+
+  <div class="group">
+    <strong>👗 Skirt</strong>
+
+    <button onclick="changeSkirt('#c9a1ed')">
+      🪻 Purple
+    </button>
+
+    <button onclick="changeSkirt('#f0a4c6')">
+      🎀 Rose
+    </button>
+
+    <button onclick="changeSkirt('#f2d98e')">
+      🌼 Gold
+    </button>
+  </div>
+
+  <div class="group">
+    <strong>👟 Shoes</strong>
+
+    <button onclick="changeShoes('#71477d')">
+      💜 Plum
+    </button>
+
+    <button onclick="changeShoes('#ee86ae')">
+      🩷 Pink
+    </button>
+
+    <button onclick="changeShoes('#333333')">
+      🖤 Black
+    </button>
+  </div>
+
+  <button class="save" onclick="saveLook()">
+    💾 SAVE LOOK
+  </button>
+
+  <div class="message" id="message"></div>
+
+</aside>
+
+</main>
+
+<script>
+
+let coins = 100;
+
+function changeTop(color) {
+  document.getElementById("top").style.background = color;
+  showMessage("Top ditukar ✨");
+}
+
+function changeSkirt(color) {
+  document.getElementById("skirt").style.background = color;
+  showMessage("Skirt ditukar ✨");
+}
+
+function changeShoes(color) {
+  document.querySelectorAll(".shoe").forEach(function(shoe) {
+    shoe.style.background = color;
+  });
+
+  showMessage("Kasut ditukar ✨");
+}
+
+function saveLook() {
+  coins += 20;
+
+  document.getElementById("coins").textContent = coins;
+
+  showMessage("Look disimpan! +20 coins 💖");
+}
+
+function showMessage(text) {
+  const message = document.getElementById("message");
+
+  message.textContent = text;
+
+  setTimeout(function() {
+    message.textContent = "";
+  }, 1500);
+}
+
+</script>
+
+</body>
+</html> 
